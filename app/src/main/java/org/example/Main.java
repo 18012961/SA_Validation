@@ -3,50 +3,51 @@ package org.example;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        printWelcomeMessage();
+        displayWelcome();
 
-        String input;
         while (true) {
             System.out.print("\nEnter ID number (or 'quit' to exit): ");
-            input = scanner.nextLine().trim();
+            String input = scanner.nextLine().trim();
 
-            if (input.equalsIgnoreCase("quit")) {
+            if ("quit".equalsIgnoreCase(input)) {
                 break;
             }
 
-            processIdInput(input);
+            handleIdInput(input);
         }
 
         scanner.close();
         System.out.println("\nGoodbye, have a great day!");
     }
 
-    private static void printWelcomeMessage() {
+    private static void displayWelcome() {
         System.out.println("South African ID Validator");
         System.out.println("--------------------------");
     }
 
-    private static void processIdInput(String idNumber) {
+    private static void handleIdInput(String idNumber) {
         if (ValidateSaid.isValid(idNumber)) {
-            printValidIdDetails(idNumber);
+            displayValidIdInfo(idNumber);
         } else {
-            printInvalidIdMessage();
+            displayInvalidIdWarning();
         }
     }
 
-    private static void printValidIdDetails(String id) {
+    private static void displayValidIdInfo(String id) {
         System.out.println("\n Valid SA ID Number");
         System.out.println("Gender: " + ValidateSaid.getGender(id));
         System.out.println("Birth Date: " + ValidateSaid.getBirthDate(id));
+
         System.out.println("\nID Breakdown:");
-        System.out.println("YYMMDD: " + id.substring(0, 6));
-        System.out.println("Citizenship: " + 
-            (id.charAt(10) == '0' ? "SA Citizen" : "Permanent Resident"));
+        System.out.printf("YYMMDD: %s%n", id.substring(0, 6));
+        System.out.printf("Citizenship: %s%n", 
+            id.charAt(10) == '0' ? "SA Citizen" : "Permanent Resident");
     }
 
-    private static void printInvalidIdMessage() {
+    private static void displayInvalidIdWarning() {
         System.out.println("\n Invalid SA ID Number");
         System.out.println("Possible issues:");
         System.out.println("- Incorrect length (must be 13 digits)");
